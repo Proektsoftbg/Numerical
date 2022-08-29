@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "Numerical.Benchmark/1.0.0": {
+        "dependencies": {
+          "Numerical": "1.0.0"
+        },
+        "runtime": {
+          "Numerical.Benchmark.dll": {}
+        }
+      },
+      "Numerical/1.0.0": {
+        "runtime": {
+          "Numerical.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Numerical.Benchmark/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Numerical/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
