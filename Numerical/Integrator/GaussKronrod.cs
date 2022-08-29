@@ -46,7 +46,7 @@
             int k = gaussNodesCount % 2;
             int n = gaussNodesCount + 1;
             k = 1 - k;
-            IterationCount = n;
+            IterationCount = 2 * gaussNodesCount + 1;
             double d = (x2 - x1) / 2;
             double xm = (x1 + x2) / 2;  
             double QG = 0, QK = 0;  

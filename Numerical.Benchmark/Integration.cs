@@ -74,6 +74,7 @@ namespace Numerical.Benchmark
 
         internal static void Run()
         {
+            const double eps = 1e-14;
             for (int i = 0; i < 3; ++i)
             {
                 switch (i)
@@ -91,12 +92,12 @@ namespace Numerical.Benchmark
                         var result = j switch
                         {
                             0 => Integrator.Romberg(p.F, p.a, p.b),
-                            1 => Integrator.AdaptiveSimpson(p.F, p.a, p.b),
-                            2 => Integrator.AdaptiveLobatto(p.F, p.a, p.b),
-                            3 => Integrator.TanhSinh(p.F, p.a, p.b),
-                            4 => Integrator.G7K15(p.F, p.a, p.b),
-                            5 => Integrator.G15K31(p.F, p.a, p.b),
-                            6 => Integrator.G30K61(p.F, p.a, p.b),
+                            1 => Integrator.AdaptiveSimpson(p.F, p.a, p.b, eps),
+                            2 => Integrator.AdaptiveLobatto(p.F, p.a, p.b, eps),
+                            3 => Integrator.TanhSinh(p.F, p.a, p.b, eps),
+                            4 => Integrator.G7K15(p.F, p.a, p.b, eps),
+                            5 => Integrator.G15K31(p.F, p.a, p.b, eps),
+                            6 => Integrator.G30K61(p.F, p.a, p.b, eps),
                             _ => throw new NotImplementedException()
                         };
                         var error = Math.Abs((result - p.Value) / p.Value);

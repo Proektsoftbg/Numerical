@@ -604,7 +604,7 @@ namespace Numerical.Benchmark
 
         internal static void Run()
         {
-            const double eps = 1e-15;
+            const double eps = 1e-14;
             for (int i = 0; i < 2; ++i)
             {
                 switch (i)
@@ -613,8 +613,8 @@ namespace Numerical.Benchmark
                     case 1: Console.WriteLine("Iteration count"); break;
                 }
                 Console.WriteLine("Func,  bs,   fp,  mfp,  ill,   ab,  ITP,  mAB,  rid,   br,  RBP");
-                //foreach (Problem p in problems1)
-                foreach (Problem p in problems2)
+                foreach (Problem p in problems1)
+                //foreach (Problem p in problems2)
                 {
                     Console.Write(p.Name + ", ");
                     for (int j = 0; j < 10; ++j)
