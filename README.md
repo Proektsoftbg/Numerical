@@ -27,13 +27,13 @@ This library provides numerical methods for integration, differentiation, root-f
 
 * First derivative by Richardson extrapolation on a 2 node symetrical stencil
 
-## Extremum by golden section search
+## Optimization by golden section search method
 
 * Local minimum of a function
 * Local maximum of a function
 
-#bNumerical.Benchmark
+# Numerical.Benchmark
 
 The Numerical.Benchmark project provides a simple tool to test and compare different numerical methods.
 
-Some results are presented in the https://github.com/Proektsoftbg/Numerical/blob/main/Numerical.Benchmark/doc/ folder.
+Some results are presented in the [/Numerical.Benchmark/doc](https://github.com/Proektsoftbg/Numerical/blob/main/Numerical.Benchmark/doc) folder.
