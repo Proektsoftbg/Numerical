@@ -6,22 +6,27 @@ This library provides numerical methods for integration, differentiation, root-f
 
 * Bisection
 * False-position (regula-falsi)
-* ModFP - modified false-position (Ganchovski)
+* ModFP - modified false-position (Ganchovski 2022)
 * Illinois method
 * Anderson-Bjork's method
-* ModAB - modified Anderson-Bjork (Traykov & Ganchovski)
-* ITP (Oliveira & Takahashi)
+* ModAB - modified Anderson-Bjork (Traykov & Ganchovski 2022)
+* ITP (Oliveira & Takahashi, 2021)
 * Ridders' method
 * Brent's method
-* RBP (Suhadolnik)
+* RBP (Suhadolnik, 2012)
 
 ## Numerical integration
 
 * Romberg's method
 * Adaptive Simpson's quadrature
-* Adaptive Lobatto quadrature (Gander & Gautschi)
+* Adaptive Lobatto quadrature (Gander & Gautschi, 2000)
 * Gauss-Kronrod quadrature (G7K15, G15K31, G30K61)
-* Tanh-Sinh quadrature (Takashi & Mori)
+* Tanh-Sinh quadrature (Takashi & Mori, 1974)
+
+Tanh-Sinh quadrature has been additionally improved by Michashki & Mosig (2016) and Van Engelen (2022). Further improvements has been made in the current implementation:
+
+1. Abscissas and weights are precomputed and saved. This accelerates the calculations when the method has to be called multiple times.
+2. Additional error check is performed when the integral should evaluate to zero. In this case, it is better to estimate the absolute error instead of the relative one.
 
 ## Numerical differentiation
 
