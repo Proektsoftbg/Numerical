@@ -6,10 +6,10 @@ This library provides numerical methods for integration, differentiation, root-f
 
 * Bisection
 * False-position (regula-falsi)
-* ModFP - modified false-position (Ganchovski 2022)
+* ModFP - modified false-position (Ganchovski, 2022)
 * Illinois method
 * Anderson-Bjork's method
-* ModAB - modified Anderson-Bjork (Traykov & Ganchovski 2022)
+* ModAB - modified Anderson-Bjork (Traykov & Ganchovski, 2022)
 * ITP (Oliveira & Takahashi, 2021)
 * Ridders' method
 * Brent's method
