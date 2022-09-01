@@ -3,7 +3,7 @@
     public static class Differentiator
     {
         // Calculates the first derivative of the finction F(x) at point x
-        // using Richardson extrapolation on a 2 node symetric stencil
+        // using Richardson extrapolation on a 2 node symetrical stencil
         public static double FirstDerivative(Func<double, double> F, 
             double x, double Precision = 1e-14) 
         {

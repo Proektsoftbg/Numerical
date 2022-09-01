@@ -14,6 +14,16 @@
         // "Double Exponential Formulas for Numerical Integration",
         // Publications of the Research Institute for Mathematical Sciences, 9 (3): 721–741 
         // https://www.ems-ph.org/journals/show_pdf.php?issn=0034-5318&vol=9&iss=3&rank=12
+        // The algorithm has been additionally improved by Michashki & Mosig (2016):
+        // https://www.ingentaconnect.com/content/tandf/jew/2016/00000030/00000003/art00001;jsessionid=55mdimh9e060a.x-ic-live-03
+        // and Van Engelen (2022):
+        // https://www.genivia.com/files/qthsh.pdf
+        // This C# implementation is based on the Van Engelen version with additional improvements:
+        // 1. Abscissas and wieghts are precomputed in the static constructor.
+        //    This is useful when the method has to be called multiple times.
+        // 2. For values of the integral that are smaller than the specified precision,
+        //    the absolute error is estimated sintead of the relative one.
+
 
         public static double TanhSinh(Func<double, double> F, 
             double x1, double x2, double Precision = 1e-14)
@@ -55,7 +65,12 @@
                 s += p;
                 ++i;
             } while (Math.Abs(v - s) > tol * Math.Abs(s) && i < n);
-            err = Math.Abs(v - s) / (Math.Abs(s) + eps);
+            //When the integral is smaller than precision, the absolute error is evaluated
+            if (Math.Abs(s) < Precision)
+                err = Math.Abs(v - s);
+            else
+                err = Math.Abs(v - s) / (Math.Abs(s) + eps);
+
             if (err > Math.Sqrt(eps))
                 return double.NaN;
 
