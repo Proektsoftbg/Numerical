@@ -70,8 +70,8 @@
             if (Math.Abs(s) > 1)
                 err /= Math.Abs(s);
 
-            if (err  > tol)
-                return double.NaN;
+            //if (err  > 10 * tol)
+            //    return double.NaN;
 
             return d * s * Math.Pow(2, 1 - i);
         }
