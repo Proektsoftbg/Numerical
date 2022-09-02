@@ -15,8 +15,8 @@
         public static double AdaptiveLobatto(Func<double, double> F,
             double x1, double x2, double Precision = 1e-14)
         {
-            var h = (x2 - x1) / 2.0;
-            double eps = Math.Max(Precision, 1e-14) * Math.Abs(h) / 2.0;
+            var h = x2 - x1;
+            double eps = Math.Max(Precision, 1e-14) * Math.Abs(h);
             IterationCount = 0;
             return Lobatto(F, new(x1, F), new(x2, F), eps, 1);
         }

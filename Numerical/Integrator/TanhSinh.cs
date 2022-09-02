@@ -2,8 +2,8 @@
 {
     public static partial class Integrator
     {
-        private const int n = 7;
-        private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212 };
+        private const int n = 11;
+        private static readonly int[] m = { 6, 7, 13, 26, 53, 106, 212, 423, 846, 1693, 3385 };
         private static readonly double[][] r = new double[n][];
         private static readonly double[][] w = new double[n][];
 
@@ -32,10 +32,10 @@
             double c = (x1 + x2) / 2.0;
             double d = (x2 - x1) / 2.0;
             double s = F(c);
-            double v, err;
+            double err;
             int i = 0;
-            double eps = Math.Max(Precision, 1e-12);
-            double tol = 10.0 * eps;
+            double eps = Math.Clamp(Precision * 0.1, 1e-15, 1e-8);
+            double tol = 10.0 * Precision;
             do
             {
                 double q, p = 0.0, fp = 0.0, fm = 0.0;
@@ -61,17 +61,16 @@
                     p += q;
                     ++j;
                 } while (Math.Abs(q) > eps * Math.Abs(p) && j < m[i]);
-                v = 2.0 * s;
+                err = 2.0 * s;
                 s += p;
+                err = Math.Abs(err - s);
                 ++i;
-            } while (Math.Abs(v - s) > tol * Math.Abs(s) && i < n);
+            } while (err > tol * Math.Abs(s) && i < n);
             //When the integral is smaller than precision, the absolute error is evaluated
-            if (Math.Abs(s) < Precision)
-                err = Math.Abs(v - s);
-            else
-                err = Math.Abs(v - s) / (Math.Abs(s) + eps);
+            if (Math.Abs(s) > 1)
+                err /= Math.Abs(s);
 
-            if (err > Math.Sqrt(eps))
+            if (err  > tol)
                 return double.NaN;
 
             return d * s * Math.Pow(2, 1 - i);

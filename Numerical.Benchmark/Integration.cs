@@ -83,10 +83,10 @@ namespace Numerical.Benchmark
                     case 1: Console.WriteLine("Error"); break;
                     case 2: Console.WriteLine("Iteration count"); break;
                 }
-                Console.WriteLine("Method, Romberg, Simpson, Lobatto, TanhSinh, G7K15, G15K31, G30K61");
+                Console.WriteLine("Method; Romberg; Simpson; Lobatto; TanhSinh; G7K15; G15K31; G30K61");
                 foreach (Problem p in problems)
                 {
-                    Console.Write(p.Name + ", ");
+                    Console.Write(p.Name + "; ");
                     for (int j = 0; j < 7; ++j)
                     {
                         var result = j switch
@@ -101,7 +101,7 @@ namespace Numerical.Benchmark
                             _ => throw new NotImplementedException()
                         };
                         var error = Math.Abs((result - p.Value) / p.Value);
-                        Console.Write((i == 0 ? result : i == 1 ? error : Integrator.IterationCount) + ", ");
+                        Console.Write((i == 0 ? result : i == 1 ? error : Integrator.IterationCount) + "; ");
                     }
                     Console.Write("\n\r");
                 }

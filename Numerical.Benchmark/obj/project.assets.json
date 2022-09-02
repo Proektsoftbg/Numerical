@@ -27,19 +27,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\proek\\.nuget\\packages\\": {}
+    "C:\\Users\\Ned\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\proek\\source\\repos\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
+      "projectUniqueName": "C:\\Users\\Ned\\source\\repos\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
       "projectName": "Numerical.Benchmark",
-      "projectPath": "C:\\Users\\proek\\source\\repos\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
-      "packagesPath": "C:\\Users\\proek\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\proek\\source\\repos\\Numerical.Benchmark\\obj\\",
+      "projectPath": "C:\\Users\\Ned\\source\\repos\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
+      "packagesPath": "C:\\Users\\Ned\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ned\\source\\repos\\Numerical.Benchmark\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\proek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ned\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -53,8 +53,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\proek\\source\\repos\\Numerical\\Numerical.csproj": {
-              "projectPath": "C:\\Users\\proek\\source\\repos\\Numerical\\Numerical.csproj"
+            "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj": {
+              "projectPath": "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj"
             }
           }
         }

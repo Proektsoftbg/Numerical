@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\proek\\source\\repos\\Numerical\\Numerical.csproj": {}
+    "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj": {}
   },
   "projects": {
-    "C:\\Users\\proek\\source\\repos\\Numerical\\Numerical.csproj": {
+    "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\proek\\source\\repos\\Numerical\\Numerical.csproj",
+        "projectUniqueName": "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj",
         "projectName": "Numerical",
-        "projectPath": "C:\\Users\\proek\\source\\repos\\Numerical\\Numerical.csproj",
-        "packagesPath": "C:\\Users\\proek\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\proek\\source\\repos\\Numerical\\obj\\",
+        "projectPath": "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj",
+        "packagesPath": "C:\\Users\\Ned\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ned\\source\\repos\\Numerical\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\proek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ned\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

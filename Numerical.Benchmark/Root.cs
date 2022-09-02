@@ -612,11 +612,11 @@ namespace Numerical.Benchmark
                     case 0: Console.WriteLine("Results"); break;
                     case 1: Console.WriteLine("Iteration count"); break;
                 }
-                Console.WriteLine("Func,  bs,   fp,  mfp,  ill,   ab,  ITP,  mAB,  rid,   br,  RBP");
+                Console.WriteLine("Func;  bs;   fp;  mfp;  ill;   ab;  ITP;  mAB;  rid;   br;  RBP");
                 foreach (Problem p in problems1)
                 //foreach (Problem p in problems2)
                 {
-                    Console.Write(p.Name + ", ");
+                    Console.Write(p.Name + "; ");
                     for (int j = 0; j < 10; ++j)
                     {
                         var result = j switch
@@ -634,7 +634,7 @@ namespace Numerical.Benchmark
                             _ => throw new NotImplementedException()
                         };
                         var s = new string(' ', 4 - (int)(Math.Ceiling(Math.Log10(Solver.IterationCount) + 0.001))) + Solver.IterationCount.ToString();
-                        Console.Write((i == 0 ? result : s) + ", ");
+                        Console.Write((i == 0 ? result : s) + "; ");
                     }
                     Console.Write("\n\r");
                 }
