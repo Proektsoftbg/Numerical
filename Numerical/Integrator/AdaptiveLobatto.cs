@@ -15,8 +15,7 @@
         public static double AdaptiveLobatto(Func<double, double> F,
             double x1, double x2, double Precision = 1e-14)
         {
-            var h = x2 - x1;
-            double eps = Math.Max(Precision, 1e-14) * Math.Abs(h);
+            double eps = Math.Max(Precision, 1e-14);
             IterationCount = 0;
             return Lobatto(F, new(x1, F), new(x2, F), eps, 1);
         }
@@ -39,7 +38,12 @@
             double a1 = h * k1 * (77.0 * (p1.Y + p2.Y) + 432.0 * (p4.Y + p7.Y) + 625.0 * (p5.Y + p6.Y) + 672.0 * p3.Y);
             double a2 = h * k2 * (p1.Y + p2.Y + 5.0 * (p5.Y + p6.Y));
 
-            if (depth > 1 && Math.Abs(a1 - a2) < eps || depth > 15)
+            if (depth == 1)
+            {
+                if (double.IsFinite(a1) && a1 > 1)
+                    eps *= a1;
+            }
+            else if (Math.Abs(a1 - a2) < eps || depth > 15)
                 return a1;
 
             depth++;
