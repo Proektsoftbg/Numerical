@@ -39,7 +39,9 @@
                         else
                             p2.Y *= m;
                     }
-                    side = 1;
+                    else
+                        side = 1;
+                    
                     p1 = p3;
                 }
                 else
@@ -52,7 +54,9 @@
                         else
                             p1.Y *= m;
                     }
-                    side = -1;
+                    else
+                        side = -1;
+                    
                     p2 = p3;
                 }
             }
