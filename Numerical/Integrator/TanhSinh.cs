@@ -22,7 +22,7 @@
         // 1. Abscissas and wieghts are precomputed in the static constructor.
         //    This is useful when the method has to be called multiple times.
         // 2. For values of the integral that are smaller than the specified precision,
-        //    the absolute error is estimated sintead of the relative one.
+        //    the absolute error is estimated instead of the relative one.
 
 
         public static double TanhSinh(Func<double, double> F, 
