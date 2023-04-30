@@ -46,7 +46,7 @@
                 for (int i = n - 1; i >= j; --i)
                     R[i] = (m * R[i] - R[i - 1]) / m1;
             }
-            IterationCount = n;
+            IterationCount = (int)Math.Pow(2,n) + 1;
             return R[n1];
         }
     }

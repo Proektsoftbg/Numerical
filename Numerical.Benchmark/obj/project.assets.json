@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ned\\source\\repos\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
+      "projectUniqueName": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
       "projectName": "Numerical.Benchmark",
-      "projectPath": "C:\\Users\\Ned\\source\\repos\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
+      "projectPath": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical.Benchmark\\Numerical.Benchmark.csproj",
       "packagesPath": "C:\\Users\\Ned\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ned\\source\\repos\\Numerical.Benchmark\\obj\\",
+      "outputPath": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical.Benchmark\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ned\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -53,8 +53,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj": {
-              "projectPath": "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj"
+            "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical\\Numerical.csproj": {
+              "projectPath": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical\\Numerical.csproj"
             }
           }
         }
@@ -84,7 +84,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

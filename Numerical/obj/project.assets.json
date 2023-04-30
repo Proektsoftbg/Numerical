@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj",
+      "projectUniqueName": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical\\Numerical.csproj",
       "projectName": "Numerical",
-      "projectPath": "C:\\Users\\Ned\\source\\repos\\Numerical\\Numerical.csproj",
+      "projectPath": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical\\Numerical.csproj",
       "packagesPath": "C:\\Users\\Ned\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ned\\source\\repos\\Numerical\\obj\\",
+      "outputPath": "C:\\Users\\Ned\\Documents\\GitHub\\Numerical\\Numerical\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Ned\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -61,7 +61,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }
