@@ -1,4 +1,4 @@
-﻿using Proektsoft.Numerical;
+using Proektsoft.Numerical;
 
 namespace Numerical.Benchmark
 {
@@ -41,7 +41,7 @@ namespace Numerical.Benchmark
             new Problem()
             {
                 Name = "f5",
-                F = (x) => x < 0.1 ? x/3d : 1d,
+                F = (x) => x < 0.1 ? x / 3d : 1d,
                 Value = 0.9 - 1.1*0.9/6d,
                 a = -1d,
                 b = 1d
@@ -65,28 +65,29 @@ namespace Numerical.Benchmark
             new Problem()
             {
                 Name = "f8",
-                F = (x) => Math.Tan(Math.PI/4d*(x + 0.9999)),
-                Value = -(4/Math.PI*(Math.Log(Math.Cos((19999*Math.PI)/40000)/Math.Cos(Math.PI/40000)))),
+                F = (x) => Math.Tan(Math.PI / 4d * (x + 0.9999)),
+                Value = -4d / Math.PI * Math.Log(Math.Cos(1.9999 * Math.PI/4d) / Math.Cos(0.0001 * Math.PI/4d)),
                 a = -1d,
                 b = 1d
             },
             new Problem()
             {
                 Name = "f9",
-                F = (x) => {
-                    var sum = 0d;
-                    for (int k = 1; k <= 10; ++k)
-                        sum += k * Math.Sin(k * Math.PI * x);
-                    return sum;
+                F = (x) => 
+                {
+                    var s = 0d;
+                    for (int k = 1; k < 11; ++k)
+                        s += Math.Sin(k * Math.PI * x) *k;
+                    return s;
                 },
-                Value = 0,
+                Value = 0d,
                 a = -1d,
                 b = 1d
             },
             new Problem()
             {
                 Name = "f10",
-                F = (x) => x < 0.5 ? 1 - x*x : 0.75,
+                F = (x) => x < 0.5 ? 1 - x * x : 0.75,
                 Value = 1.5,
                 a = -1d,
                 b = 1d
@@ -104,11 +105,11 @@ namespace Numerical.Benchmark
                     case 1: Console.WriteLine("Error"); break;
                     case 2: Console.WriteLine("Iteration count"); break;
                 }
-                Console.WriteLine("Method; Romberg; Simpson; Lobatto; TanhSinh; G7K15; G15K31; G30K61");
+                Console.WriteLine("Method; Romberg; Simpson; Lobatto; TanhSinh; G7K15; G15K31; G30K61; G49K99");
                 foreach (Problem p in problems)
                 {
                     Console.Write(p.Name + "; ");
-                    for (int j = 0; j < 7; ++j)
+                    for (int j = 0; j < 8; ++j)
                     {
                         var result = j switch
                         {
@@ -119,6 +120,7 @@ namespace Numerical.Benchmark
                             4 => Integrator.G7K15(p.F, p.a, p.b, eps),
                             5 => Integrator.G15K31(p.F, p.a, p.b, eps),
                             6 => Integrator.G30K61(p.F, p.a, p.b, eps),
+                            7 => Integrator.G49K99(p.F, p.a, p.b, eps),
                             _ => throw new NotImplementedException()
                         };
                         var error = Math.Abs((result - p.Value) / p.Value);

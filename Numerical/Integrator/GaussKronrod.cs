@@ -20,6 +20,10 @@
             double x1, double x2, double Precision = 1e-14) =>
             GaussKronrod(F, x1, x2, 30, Precision);
 
+        public static double G49K99(Func<double, double> F,
+            double x1, double x2, double Precision = 1e-14) =>
+            GaussKronrod(F, x1, x2, 49, Precision);
+
         // General procedure for gaussNodesCount Gauss nodes
         private static double GaussKronrod(Func<double, double> F, 
             double x1, double x2, int gaussNodesCount, double Precision)
@@ -38,6 +42,10 @@
                 case 30:
                     G = G30;
                     K = K61;
+                    break;
+                case 49:
+                    G = G49;
+                    K = K99;
                     break;
                 default:
                     ArgumentOutOfRangeException e = new(nameof(gaussNodesCount), "Invalid number of Gauss quadrature nodes.");

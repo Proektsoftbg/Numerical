@@ -1,4 +1,4 @@
-﻿namespace Proektsoft.Numerical
+namespace Proektsoft.Numerical
 {
     public static partial class Integrator
     {
@@ -17,7 +17,7 @@
             Node p2 = new(x2, F);
             Node p3 = new(Node.Mid(p1, p2), F);
             IterationCount = 3;
-            double eps = Math.Max(Precision, 1e-16) * Math.Abs(h) / 2.0;
+            double eps = Math.Max(Precision, 1e-16) * Math.Abs(h);
             double a0 = h * Simp(p1, p3, p2);
             double area = Simpson(F, p1, p3, p2, a0, eps, 1);
             return area * Math.Sign(h) / 3.0;
@@ -37,7 +37,7 @@
             double a = a1 + a2;
             double d = a - a0;
 
-            if (depth > 2 && Math.Abs(d) < 45.0 * eps || depth > 30)
+            if (depth > 2 && Math.Abs(d) < 45.0 * eps || depth > 40)
                 return a + d * c;
 
             ++depth;
