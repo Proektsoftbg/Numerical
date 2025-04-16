@@ -65,8 +65,29 @@ namespace Numerical.Benchmark
             new Problem()
             {
                 Name = "f8",
-                F = (x) => Math.Tan(Math.PI/4d*(x + 1d)),
-                Value = -4d/Math.PI * Math.Log(Math.Cos(Math.PI/2d)),
+                F = (x) => Math.Tan(Math.PI/4d*(x + 0.9999)),
+                Value = -(4/Math.PI*(Math.Log(Math.Cos((19999*Math.PI)/40000)/Math.Cos(Math.PI/40000)))),
+                a = -1d,
+                b = 1d
+            },
+            new Problem()
+            {
+                Name = "f9",
+                F = (x) => {
+                    var sum = 0d;
+                    for (int k = 1; k <= 10; ++k)
+                        sum += k * Math.Sin(k * Math.PI * x);
+                    return sum;
+                },
+                Value = 0,
+                a = -1d,
+                b = 1d
+            },
+            new Problem()
+            {
+                Name = "f10",
+                F = (x) => x < 0.5 ? 1 - x*x : 0.75,
+                Value = 1.5,
                 a = -1d,
                 b = 1d
             }
