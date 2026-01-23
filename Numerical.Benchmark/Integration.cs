@@ -126,9 +126,9 @@ namespace Numerical.Benchmark
                         var error = Math.Abs((result - p.Value) / p.Value);
                         Console.Write((i == 0 ? result : i == 1 ? error : Integrator.IterationCount) + "; ");
                     }
-                    Console.Write("\n\r");
+                    Console.WriteLine("");
                 }
-                Console.Write("\n\r");
+                Console.WriteLine("");
             }
             Console.ReadKey();
         }

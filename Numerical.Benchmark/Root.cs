@@ -636,9 +636,9 @@ namespace Numerical.Benchmark
                         var s = new string(' ', 4 - (int)(Math.Ceiling(Math.Log10(Solver.IterationCount) + 0.001))) + Solver.IterationCount.ToString();
                         Console.Write((i == 0 ? result : s) + "; ");
                     }
-                    Console.Write("\n\r");
+                    Console.WriteLine("");
                 }
-                Console.Write("\n\r");
+                Console.WriteLine("");
             }
             Console.ReadKey();
         }
