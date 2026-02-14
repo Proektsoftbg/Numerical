@@ -8,7 +8,7 @@
         // “An Enhancement of the Bisection Method Average Performance Preserving Minmax Optimality.”
         // ACM Transactions on Mathematical Software (TOMS) 47 (2021): 1 – 24.
         // https://doi.org/10.1145/3423597
-        // F(x) must be coutinuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
+        // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
 
         public static double ITP(Func<double, double> F,
             double x1, double x2, double y0 = 0.0, double precision = 1e-14)

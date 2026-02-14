@@ -455,147 +455,147 @@ namespace Numerical.Benchmark
         {
             new Problem //Lambert
             {
-                Name = "f01",
+                Name = "f63",
                 F = (x) => x * Math.Exp(x) - 1d,
                 a = -1d,
                 b = 1d
             },
             new Problem //Trigonometric 1
             {
-                Name = "f02",
+                Name = "f64",
                 F = (x) => Math.Tan(x - 1d/10d),
                 a = -1d,
                 b = 1d
             },
             new Problem //Trigonometric 2
             {
-                Name = "f03",
+                Name = "f65",
                 F = (x) => Math.Sin(x) + 0.5,
                 a = -1d,
                 b = 1d
             },
             new Problem //Polynomial 1
             {
-                Name = "f04",
+                Name = "f66",
                 F = (x) => 4 * Math.Pow(x, 5d) + x * x + 1d,
                 a = -1d,
                 b = 1d
             },
             new Problem //Polynomial 2
             {
-                Name = "f05",
+                Name = "f67",
                 F = (x) => x + Math.Pow(x, 10d) - 1d,
                 a = -1d,
                 b = 1d
             },
             new Problem //Exponential
             {
-                Name = "f06",
+                Name = "f68",
                 F = (x) => Math.Pow(Math.PI, x) - Math.E,
                 a = -1d,
                 b = 1d
             },
             new Problem //Logarithmic
             {
-                Name = "f07",
+                Name = "f69",
                 F = (x) => Math.Log(Math.Abs(x - 10d/9d)),
                 a = -1d,
                 b = 1d
             },
             new Problem //Posynomial
             {
-                Name = "f08",
+                Name = "f70",
                 F = (x) => 1d/3d + Math.Sign(x) * Math.Cbrt(Math.Abs(x)) + Math.Pow(x, 3d),
                 a = -1d,
                 b = 1d
             },
             new Problem //Poly.Frac.
             {
-                Name = "f09",
+                Name = "f71",
                 F = (x) => (x + 2d/3d)/(x + 101d/100d),
                 a = -1d,
                 b = 1d
             },
             new Problem //Polynomial 3
             {
-                Name = "f10",
+                Name = "f72",
                 F = (x) => Math.Pow(x * 1e6 - 1d, 3d),
                 a = -1d,
                 b = 1d
             },
             new Problem //Exp. Poly.
             {
-                Name = "f11",
+                Name = "f73",
                 F = (x) => Math.Exp(x) * Math.Pow(x * 1e6 - 1d, 3d),
                 a = -1d,
                 b = 1d
             },
             new Problem //Tan. Poly.
             {
-                Name = "f12",
+                Name = "f74",
                 F = (x) => Math.Pow(x - 1d/3d, 2d) * Math.Atan(x - 1d/3d),
                 a = -1d,
                 b = 1d
             },
             new Problem //Circles
             {
-                Name = "f13",
+                Name = "f75",
                 F = (x) => Math.Sign(3d*x - 1d) * (1d - Math.Sqrt(1d - Math.Pow(3d*x - 1d, 2d)/81d)),
                 a = -1d,
                 b = 1d
             },
             new Problem //Step Function
             {
-                Name = "f14",
+                Name = "f76",
                 F = (x)  => x > (1d - 1e6) / 1e6 ? (1d + 1e6) / 1e6 : 0d - 1d,
                 a = -1d,
                 b = 1d
             },
             new Problem //Geometric
             {
-                Name = "f15",
+                Name = "f77",
                 F = (x) => x != 1d/21d ? 1/(21d*x - 1d) : 0d,
                 a = -1d,
                 b = 1d
             },
             new Problem //Trunc.Poly.
             {
-                Name = "f16",
+                Name = "f78",
                 F = (x) => x * x / 4d + Math.Ceiling(x/2d) - 0.5,
                 a = -1d,
                 b = 1d
             },
             new Problem //Staircase
             {
-                Name = "f17",
+                Name = "f79",
                 F = (x) => Math.Ceiling(10d*x - 1d) + 0.5,
                 a = -1d,
                 b = 1d
             },
             new Problem //Noisy Line
             {
-                Name = "f18",
+                Name = "f80",
                 F = (x) => x + Math.Sin(x*1e6)/10d + 1e-3,
                 a = -1d,
                 b = 1d
             },
             new Problem //Warsaw
             {
-                Name = "f19",
+                Name = "f81",
                 F = (x) => x > -1 ? 1 + Math.Sin(1d/(x + 1d)) : 0d - 1d,
                 a = -1d,
                 b = 1d
             },
             new Problem //Sawtooth
             {
-                Name = "f20",
+                Name = "f82",
                 F = (x) => 202d*x - 2*Math.Floor((2d*x + 1e-2)/2e-2) - 0.1,
                 a = -1d,
                 b = 1d
             },
             new Problem //Sawtooth Cube
             {
-                Name = "f21",
+                Name = "f83",
                 F = (x) => Math.Pow(202d*x - 2d*Math.Floor((2d*x + 1e-2)/2e-2) - 0.1, 3d),
                 a = -1d,
                 b = 1d
@@ -607,7 +607,7 @@ namespace Numerical.Benchmark
         {
             new Problem  // Polynomial with multiple roots  
             { 
-                Name = "Wilkinson-like polynomial",
+                Name = "f84",
                  F = (u) => (u - 1) * (u - 2) * (u - 3) * (u - 4) * (u - 5) - 0.05,
                  a = 0.5,
                  b = 5.5
@@ -615,7 +615,7 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 2: Trigonometric with multiple roots
             {
-                 Name = "sin(x) - 0.5x",
+                 Name = "f85",
                  F = (u) => Math.Sin(u) - 0.5*u - 0.3,
                  a = -10.0,
                  b = 10.0
@@ -623,7 +623,7 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 3: Exponential function (sensitive near zero)
             {
-                Name = "exp(x) - 1 - x - x²/2",
+                Name = "f86",
                 F = (u) =>  Math.Exp(u) - 1 - u - u*u/2 - 0.005,
                 a = -2.0,
                 b = 2.0
@@ -631,7 +631,7 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 4: Rational function with pole
             {
-                 Name = "1/(x-0.5) - 2",
+                 Name = "f87",
                  F = (u) =>  1/(u - 0.5) - 2 - 0.05,
                  a = 0.6,
                  b = 2.0,
@@ -639,7 +639,7 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 5: Logarithmic function
             {
-                 Name = "log(x) - x + 2",
+                 Name = "f88",
                  F = (u) => Math.Log(u) - u + 2 - 0.05,
                  a = 0.1,
                  b = 3.0,
@@ -647,7 +647,7 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 6: High oscillation function
             {
-                 Name = "sin(20x) + 0.1x",
+                 Name = "f89",
                  F = (u) =>  Math.Sin(20*u) + 0.1*u - 0.1,
                  a = -5.0,
                  b = 5.0,
@@ -655,7 +655,7 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 7: Function with very flat region
             {
-                 Name = "x³ - 2x² + x",
+                 Name = "f90",
                  F = (u) =>  u*u*u - 2*u*u + u - 0.025,
                  a = -1.0,
                  b = 2.0,
@@ -663,8 +663,8 @@ namespace Numerical.Benchmark
 
             new Problem  // Function 8: Bessel-like function
             {
-                 Name = "x·sin(1/x) - 0.1",
-                 F = (u) =>  u* Math.Sin(1/u) - 0.1 - 0.01,
+                 Name = "f91",
+                 F = (u) =>  u*Math.Sin(1/u) - 0.1 - 0.01,
                  a = 0.01,
                  b = 1.0
              },
@@ -683,7 +683,8 @@ namespace Numerical.Benchmark
                 Console.WriteLine("Func;  bs;   fp;  mfp;  ill;   ab;  ITP;  mAB;  rid;   br;  RBP");
                 //foreach (Problem p in problems1)
                 //foreach (Problem p in problems2)
-                foreach (Problem p in problems3)
+                var problems = (new[] { problems1, problems2, problems3 }).SelectMany(x => x).ToArray(); ;
+                foreach (Problem p in problems)
                 {
                     Console.Write(p.Name + "; ");
                     for (int j = 0; j < 10; ++j)
@@ -702,8 +703,9 @@ namespace Numerical.Benchmark
                             9 => Solver.RBP(p.F, p.a, p.b, p.Value, eps),
                             _ => throw new NotImplementedException()
                         };
-                        var count = Math.Abs(Solver.IterationCount) + 1;
-                        count = 4 - (int)(Math.Ceiling(Math.Log10(count) + 0.001));
+                        var count = Math.Abs(Solver.IterationCount);
+                        if (count == 0) count = 1;
+                        count = 4 - (int)(Math.Floor(Math.Log10(count)));
                         var s = new string(' ', count) + Solver.IterationCount.ToString();
                         Console.Write((i == 0 ? result : s) + "; ");
                     }
