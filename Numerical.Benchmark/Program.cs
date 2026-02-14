@@ -1,5 +1,5 @@
 ﻿using Numerical.Benchmark;
 
-Integration.Run();
-//Root.Run();
+//Integration.Run();
+Root.Run();
 

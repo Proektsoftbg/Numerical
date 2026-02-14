@@ -75,6 +75,5 @@
             IterationCount = MaxIterations;
             return double.NaN;
         }
-
     }
 }

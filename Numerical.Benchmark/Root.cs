@@ -602,6 +602,74 @@ namespace Numerical.Benchmark
             },
         };
 
+        //SciML Benchmarks test suite
+        private static readonly Problem[] problems3 =
+        {
+            new Problem  // Polynomial with multiple roots  
+            { 
+                Name = "Wilkinson-like polynomial",
+                 F = (u) => (u - 1) * (u - 2) * (u - 3) * (u - 4) * (u - 5) - 0.05,
+                 a = 0.5,
+                 b = 5.5
+             },
+
+            new Problem  // Function 2: Trigonometric with multiple roots
+            {
+                 Name = "sin(x) - 0.5x",
+                 F = (u) => Math.Sin(u) - 0.5*u - 0.3,
+                 a = -10.0,
+                 b = 10.0
+             },
+
+            new Problem  // Function 3: Exponential function (sensitive near zero)
+            {
+                Name = "exp(x) - 1 - x - x²/2",
+                F = (u) =>  Math.Exp(u) - 1 - u - u*u/2 - 0.005,
+                a = -2.0,
+                b = 2.0
+            },
+
+            new Problem  // Function 4: Rational function with pole
+            {
+                 Name = "1/(x-0.5) - 2",
+                 F = (u) =>  1/(u - 0.5) - 2 - 0.05,
+                 a = 0.6,
+                 b = 2.0,
+            },
+
+            new Problem  // Function 5: Logarithmic function
+            {
+                 Name = "log(x) - x + 2",
+                 F = (u) => Math.Log(u) - u + 2 - 0.05,
+                 a = 0.1,
+                 b = 3.0,
+            },
+
+            new Problem  // Function 6: High oscillation function
+            {
+                 Name = "sin(20x) + 0.1x",
+                 F = (u) =>  Math.Sin(20*u) + 0.1*u - 0.1,
+                 a = -5.0,
+                 b = 5.0,
+            },
+
+            new Problem  // Function 7: Function with very flat region
+            {
+                 Name = "x³ - 2x² + x",
+                 F = (u) =>  u*u*u - 2*u*u + u - 0.025,
+                 a = -1.0,
+                 b = 2.0,
+            },
+
+            new Problem  // Function 8: Bessel-like function
+            {
+                 Name = "x·sin(1/x) - 0.1",
+                 F = (u) =>  u* Math.Sin(1/u) - 0.1 - 0.01,
+                 a = 0.01,
+                 b = 1.0
+             },
+        };
+
         internal static void Run()
         {
             const double eps = 1e-14;
@@ -613,8 +681,9 @@ namespace Numerical.Benchmark
                     case 1: Console.WriteLine("Iteration count"); break;
                 }
                 Console.WriteLine("Func;  bs;   fp;  mfp;  ill;   ab;  ITP;  mAB;  rid;   br;  RBP");
-                foreach (Problem p in problems1)
+                //foreach (Problem p in problems1)
                 //foreach (Problem p in problems2)
+                foreach (Problem p in problems3)
                 {
                     Console.Write(p.Name + "; ");
                     for (int j = 0; j < 10; ++j)
@@ -633,7 +702,9 @@ namespace Numerical.Benchmark
                             9 => Solver.RBP(p.F, p.a, p.b, p.Value, eps),
                             _ => throw new NotImplementedException()
                         };
-                        var s = new string(' ', 4 - (int)(Math.Ceiling(Math.Log10(Solver.IterationCount) + 0.001))) + Solver.IterationCount.ToString();
+                        var count = Math.Abs(Solver.IterationCount) + 1;
+                        count = 4 - (int)(Math.Ceiling(Math.Log10(count) + 0.001));
+                        var s = new string(' ', count) + Solver.IterationCount.ToString();
                         Console.Write((i == 0 ? result : s) + "; ");
                     }
                     Console.Write("\n\r");
