@@ -707,9 +707,9 @@ namespace Numerical.Benchmark
                         var s = new string(' ', count) + Solver.IterationCount.ToString();
                         Console.Write((i == 0 ? result : s) + "; ");
                     }
-                    Console.Write("\n\r");
+                    Console.WriteLine("");
                 }
-                Console.Write("\n\r");
+                Console.WriteLine("");
             }
             Console.ReadKey();
         }
