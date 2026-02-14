@@ -6,135 +6,94 @@
         // with the specified precision, using modified Anderson Bjork's method (Ganchovski, Traykov)
         // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
 
-        public static double ModAB(Func<double, double> F,
-            double x1, double x2, double y0 = 0.0, double precision = 1e-14)
+        public static double ModAB(Func<double, double> f, double left, double right, double target, double precision = 1e-14)
         {
-            const double k = 0.25;
-            if (!Initialize(x1, x2, F, y0, precision,
-                out Node p1, out Node p2, out Node eps))
-                return double.NaN;
+            double x1 = Math.Min(left, right), y1 = f(x1) - target;
+            if (Math.Abs(y1) <= precision)
+                return x1;
 
-            int N = -(int)(Math.Log2(precision) / 2) + 1;
-            int side = 0;
-            double x0 = p1.X;
-            bool Bisection = true;
-            for (int i = 1; i <= MaxIterations; i++)
+            double x2 = Math.Max(left, right), y2 = f(x2) - target;
+            if (Math.Abs(y2) <= precision)
+                return x2;
+
+            var nMax = -(int)(Math.Log2(precision) / 2.0) + 1;
+            double eps1 = precision / 4, eps = precision * (x2 - x1) / 2.0;
+            if (Math.Abs(target) > 1)
+                eps1 *= target;
+
+            var side = 0;
+            var ans = x1;
+            var bisection = true;
+            const double k = 0.25;
+            const int n = 100;
+            for (int i = 1; i <= n; ++i)
             {
-                Node p3;
-                if (Bisection)
+                double x3, y3;
+                if (bisection)
                 {
-                    p3 = new(Node.Mid(p1, p2), F, y0);
-                    double ym = (p1.Y + p2.Y) / 2;
-                    //Check if function is close to straight line
-                    if (Math.Abs(ym - p3.Y) < k * (Math.Abs(p3.Y) + Math.Abs(ym)))
-                        Bisection = false;
+                    x3 = (x1 + x2) / 2.0;
+                    y3 = f(x3) - target;
+                    var ym = (y1 + y2) / 2.0;
+                    // Check if function is close to straight line
+                    if (Math.Abs(ym - y3) < k * (Math.Abs(y3) + Math.Abs(ym)))
+                        bisection = false;
                 }
                 else
-                    p3 = new(Node.Sec(p1, p2), F, y0);
-
-                if (Math.Abs(p3.Y) <= eps.Y || Math.Abs(p3.X - x0) < eps.X)
+                {
+                    x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
+                    if (x3 < x1 - eps || x3 > x2 + eps)
+                    {
+                        return double.NaN;
+                    }
+                    y3 = f(x3) - target;
+                }
+                var err = Math.Abs(y3);
+                if (err < eps1 || Math.Abs(x3 - ans) < eps)
                 {
                     IterationCount = i;
-                    return p3.X;
-                }
+                    if (x1 > x2)
+                        return side == 1 ? x2 : x1;
 
-                x0 = p3.X;
-                if (Math.Sign(p1.Y) == Math.Sign(p3.Y))
+                    return Math.Clamp(x3, x1, x2);
+                }
+                ans = x3;
+                if (Math.Sign(y1) == Math.Sign(y3))
                 {
                     if (side == 1)
                     {
-                        double m = 1 - p3.Y / p1.Y;
+                        var m = 1 - y3 / y1;
                         if (m <= 0)
-                            p2.Y /= 2;
+                            y2 /= 2;
                         else
-                            p2.Y *= m;
+                            y2 *= m;
                     }
-                    if (!Bisection)
+                    else if (!bisection)
                         side = 1;
 
-                    p1 = p3;
+                    x1 = x3;
+                    y1 = y3;
                 }
                 else
                 {
                     if (side == -1)
                     {
-                        double m = 1 - p3.Y / p2.Y;
+                        var m = 1 - y3 / y2;
                         if (m <= 0)
-                            p1.Y /= 2;
+                            y1 /= 2;
                         else
-                            p1.Y *= m;
+                            y1 *= m;
                     }
-                    if (!Bisection)
+                    else if (!bisection)
                         side = -1;
 
-                    p2 = p3;
+                    x2 = x3;
+                    y2 = y3;
                 }
-                if (i % N == 0)
-                    Bisection = true;
+                if (i % nMax == 0)
+                    bisection = true;
             }
             IterationCount = MaxIterations;
-            return double.NaN;
-        }
-
-
-        public static double ModABPaper(Func<double, double> F, double x1, double x2, double y0 = 0.0, double precision = 1e-14)
-        {
-            double y1 = F(x1), y2 = F(x2);          //Evaluate the function at both ends
-            int side = 0;                           //For tracking the side that has moved at the previous iteration
-            int N = -(int)(Math.Log2(precision) / 2) + 1; //Expected number of iterations
-            double x0 = x1;                         //For storing the abscissa from the previous iteration
-            bool Bisection = true;
-            double eps = precision;
-            for (int i = 1; i <= MaxIterations; ++i)
-            {
-                double x3, y3;
-                if (Bisection)                       //Bisection step
-                {
-                    x3 = (x1 + x2) / 2; y3 = F(x3);  //Midpoint abscissa and function value
-                    double ym = (y1 + y2) / 2;       //Ordinate of chord at midpoint
-                    if (Math.Abs(ym - y3) < 0.25 * (Math.Abs(ym) + Math.Abs(y3)))
-                        Bisection = false;           //Switch to false-position
-                }
-                else                                 //False-position step
-                {
-                    x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
-                    y3 = F(x3);
-                }
-                if (y3 == 0 || Math.Abs(x3 - x0) <= eps)    //Convergence check
-                {
-                    IterationCount = i;
-                    return x3;                  //Return the result
-                }
-
-                x0 = x3;                        //Store the abscissa for the next iteration
-                if (side == 1)                  //Apply Anderson-Bjork modification for side 1
-                {
-                    double m = 1 - y3 / y1;
-                    if (m <= 0) y2 *= 0.5; else y2 *= m;
-                }
-                else if (side == 2)             //Apply Anderson-Bjork modification for side 2
-                {
-                    double m = 1 - y3 / y2;
-                    if (m <= 0) y1 /= 2; else y1 *= m;
-                }
-                if (Math.Sign(y1) == Math.Sign(y3))     //If the left interval does not change sign
-                {
-                    if (!Bisection) side = 1;       //Store the side that move
-                    x1 = x3; y1 = y3;           //Move the left end
-                }
-                else                    //If the right interval does not change sign
-                {
-                    if (!Bisection) side = 2;       //Store the side that move
-                    x2 = x3; y2 = y3;           //Move the right end
-                }
-                if (i % N == 0)             //If the expected number of iterations is exceeded
-                {
-                    Bisection = true;           //Reset to bisection
-                    side = 0;
-                }
-            }
-            IterationCount = MaxIterations;
-            return double.NaN;            //If the algorithm failed to converge for n iterations
+            return ans;
         }
     }
 }
