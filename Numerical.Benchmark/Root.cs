@@ -607,8 +607,8 @@ namespace Numerical.Benchmark
         {
             new Problem  // Polynomial with multiple roots  
             { 
-                Name = "f84",
-                 F = (u) => (u - 1) * (u - 2) * (u - 3) * (u - 4) * (u - 5) - 0.05,
+                 Name = "f84",
+                 F = (x) => (x - 1) * (x - 2) * (x - 3) * (x - 4) * (x - 5) - 0.05,
                  a = 0.5,
                  b = 5.5
              },
@@ -616,7 +616,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 2: Trigonometric with multiple roots
             {
                  Name = "f85",
-                 F = (u) => Math.Sin(u) - 0.5*u - 0.3,
+                 F = (x) => Math.Sin(x) - 0.5*x - 0.3,
                  a = -10.0,
                  b = 10.0
              },
@@ -624,7 +624,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 3: Exponential function (sensitive near zero)
             {
                 Name = "f86",
-                F = (u) =>  Math.Exp(u) - 1 - u - u*u/2 - 0.005,
+                F = (x) =>  Math.Exp(x) - 1 - x - x*x/2 - 0.005,
                 a = -2.0,
                 b = 2.0
             },
@@ -632,7 +632,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 4: Rational function with pole
             {
                  Name = "f87",
-                 F = (u) =>  1/(u - 0.5) - 2 - 0.05,
+                 F = (x) =>  1/(x - 0.5) - 2 - 0.05,
                  a = 0.6,
                  b = 2.0,
             },
@@ -640,7 +640,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 5: Logarithmic function
             {
                  Name = "f88",
-                 F = (u) => Math.Log(u) - u + 2 - 0.05,
+                 F = (x) => Math.Log(x) - x + 2 - 0.05,
                  a = 0.1,
                  b = 3.0,
             },
@@ -648,7 +648,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 6: High oscillation function
             {
                  Name = "f89",
-                 F = (u) =>  Math.Sin(20*u) + 0.1*u - 0.1,
+                 F = (x) =>  Math.Sin(20*x) + 0.1*x - 0.1,
                  a = -5.0,
                  b = 5.0,
             },
@@ -656,7 +656,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 7: Function with very flat region
             {
                  Name = "f90",
-                 F = (u) =>  u*u*u - 2*u*u + u - 0.025,
+                 F = (x) =>  x*x*x - 2*x*x + x - 0.025,
                  a = -1.0,
                  b = 2.0,
             },
@@ -664,7 +664,7 @@ namespace Numerical.Benchmark
             new Problem  // Function 8: Bessel-like function
             {
                  Name = "f91",
-                 F = (u) =>  u*Math.Sin(1/u) - 0.1 - 0.01,
+                 F = (x) =>  x*Math.Sin(1/x) - 0.1 - 0.01,
                  a = 0.01,
                  b = 1.0
              },
