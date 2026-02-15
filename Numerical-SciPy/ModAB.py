@@ -16,7 +16,7 @@ def mod_ab(f, left, right, target, precision=1e-14):
         return x2
 
     n_max = -int(math.log2(precision) / 2.0) + 1
-    eps1 = precision / 4
+    eps1 = precision / 100
     eps = precision * (x2 - x1) / 2.0
     if abs(target) > 1:
         eps1 *= target

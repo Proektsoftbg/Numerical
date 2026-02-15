@@ -17,9 +17,11 @@
                 return x2;
 
             var nMax = -(int)(Math.Log2(precision) / 2.0) + 1;
-            double eps1 = precision / 4, eps = precision * (x2 - x1) / 2.0;
+            double eps1 = precision / 100, eps = precision * (x2 - x1) / 2.0;
             if (Math.Abs(target) > 1)
                 eps1 *= target;
+            else
+                eps1 *= eps1;
 
             var side = 0;
             var ans = x1;

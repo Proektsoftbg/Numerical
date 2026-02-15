@@ -673,12 +673,13 @@ namespace Numerical.Benchmark
         internal static void Run()
         {
             const double eps = 1e-14;
-            for (int i = 0; i < 2; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 switch (i)
                 {
                     case 0: Console.WriteLine("Results"); break;
-                    case 1: Console.WriteLine("Iteration count"); break;
+                    case 1: Console.WriteLine("Function values"); break;
+                    case 2: Console.WriteLine("Iteration count"); break;
                 }
                 Console.WriteLine("Func;  bs;   fp;  mfp;  ill;   ab;  ITP;  mAB;  rid;   br;  RBP");
                 //foreach (Problem p in problems1)
@@ -707,7 +708,12 @@ namespace Numerical.Benchmark
                         if (count == 0) count = 1;
                         count = 4 - (int)(Math.Floor(Math.Log10(count)));
                         var s = new string(' ', count) + Solver.IterationCount.ToString();
-                        Console.Write((i == 0 ? result : s) + "; ");
+                        if (i == 0)
+                            Console.Write(result+ "; ");
+                        else if (i == 1)
+                            Console.Write(double.IsNaN(result) ? "NaN; " : p.F(result) + "; ");
+                        else
+                            Console.Write(s + "; ");
                     }
                     Console.WriteLine("");
                 }
