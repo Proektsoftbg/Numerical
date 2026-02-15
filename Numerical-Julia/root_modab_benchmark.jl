@@ -29,6 +29,8 @@ function mod_ab(f, left::Real, right::Real, target::Real=0.0; precision::Float64
     eps = precision * (x2 - x1) / 2.0
     if abs(target) > 1
         eps1 *= target
+    else
+        eps1 = 0
     end
 
     side = 0

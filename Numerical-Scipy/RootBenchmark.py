@@ -45,6 +45,8 @@ def mod_ab(f, left, right, target, precision=1e-14):
     eps = precision * (x2 - x1) / 2.0
     if abs(target) > 1:
         eps1 *= target
+    else:
+        eps1 = 0
 
     side = 0
     ans = x1
@@ -288,6 +290,22 @@ def run():
             try:
                 result = solver(cf, p.a, p.b, p.value, eps)
                 line += f"{result:>{col_w}.15g}; "
+            except Exception:
+                line += f"{'ERR':>{col_w}}; "
+        print(line)
+    print()
+
+    # --- Function values ---
+    print("Function values")
+    header = f"{'Func':>4}; " + "; ".join(f"{name:>{col_w}}" for name, _ in solvers)
+    print(header)
+    for p in all_problems:
+        line = f"{p.name:>4}; "
+        for name, solver in solvers:
+            cf = CountedFunc(p.f)
+            try:
+                result = solver(cf, p.a, p.b, p.value, eps)
+                line += f"{cf(result):>{col_w}.15g}; "
             except Exception:
                 line += f"{'ERR':>{col_w}}; "
         print(line)

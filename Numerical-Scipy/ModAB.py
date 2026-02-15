@@ -20,7 +20,9 @@ def mod_ab(f, left, right, target, precision=1e-14):
     eps = precision * (x2 - x1) / 2.0
     if abs(target) > 1:
         eps1 *= target
-
+    else:
+        eps1 = 0
+        
     side = 0
     ans = x1
     bisection = True
