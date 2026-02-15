@@ -36,7 +36,7 @@ function mod_ab(f, left::Real, right::Real, target::Real=0.0; precision::Float64
     bisection = true
     k = 0.25
 
-    for i in 1:100
+    for i in 1:200
         if bisection
             x3 = (x1 + x2) / 2.0
             y3 = f(x3) - target

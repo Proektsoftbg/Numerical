@@ -25,8 +25,7 @@
             var ans = x1;
             var bisection = true;
             const double k = 0.25;
-            const int n = 100;
-            for (int i = 1; i <= n; ++i)
+            for (int i = 1; i <= MaxIterations; ++i)
             {
                 double x3, y3;
                 if (bisection)
