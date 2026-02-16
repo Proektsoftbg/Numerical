@@ -49,7 +49,7 @@
                     y3 = f(x3) - target;
                 }
                 var err = Math.Abs(y3);
-                if (err < eps1 || Math.Abs(x3 - ans) < eps)
+                if (err <= eps1 || Math.Abs(x3 - ans) <= eps)
                 {
                     IterationCount = i;
                     if (x1 > x2)

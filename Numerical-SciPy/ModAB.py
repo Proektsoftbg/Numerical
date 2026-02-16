@@ -43,7 +43,7 @@ def mod_ab(f, left, right, target, precision=1e-14):
             y3 = f(x3) - target
 
         err = abs(y3)
-        if err < eps1 or abs(x3 - ans) < eps:
+        if err <= eps1 or abs(x3 - ans) <= eps:
             if x1 > x2:
                 return x2 if side == 1 else x1
             return max(x1, min(x3, x2))

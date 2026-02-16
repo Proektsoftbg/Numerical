@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable 
 import numpy as np
 from scipy.optimize import bisect as sp_bisect, brentq, brenth, ridder as sp_ridder, elementwise
 
@@ -67,7 +67,7 @@ def mod_ab(f, left, right, target, precision=1e-14):
                 return float('nan')
             y3 = f(x3) - target
 
-        if abs(y3) < eps1 or abs(x3 - ans) < eps:
+        if abs(y3) <= eps1 or abs(x3 - ans) <= eps:
             if x1 > x2:
                 return x2 if side == 1 else x1
             return max(x1, min(x3, x2))
