@@ -1,8 +1,8 @@
 import math
 from dataclasses import dataclass
-from typing import Callable
+from typing import Callable 
 import numpy as np
-from scipy.optimize import bisect as sp_bisect, brentq, brenth, ridder as sp_ridder
+from scipy.optimize import bisect as sp_bisect, brentq, brenth, ridder as sp_ridder, elementwise
 
 
 # ---------------------------------------------------------------------------
@@ -56,6 +56,8 @@ def mod_ab(f, left, right, target, precision=1e-14):
 
     for i in range(1, n + 1):
         if bisection:
+            if math.copysign(1, y1) == math.copysign(1, y2):
+                return float('nan')
             x3 = (x1 + x2) / 2.0
             y3 = f(x3) - target
             ym = (y1 + y2) / 2.0
@@ -67,7 +69,7 @@ def mod_ab(f, left, right, target, precision=1e-14):
                 return float('nan')
             y3 = f(x3) - target
 
-        if abs(y3) < eps1 or abs(x3 - ans) < eps:
+        if abs(y3) <= eps1 or abs(x3 - ans) <= eps:
             if x1 > x2:
                 return x2 if side == 1 else x1
             return max(x1, min(x3, x2))
@@ -123,11 +125,26 @@ def make_scipy_solver(scipy_func, name):
     solver.__name__ = name
     return solver
 
+def wrap_find_root():
+    """Create a wrapper for find_root that matches the required signature."""
+    def solver(f, left, right, target, precision=1e-14):
+        g = (np.vectorize((lambda x: f(x) - target), otypes=[np.float64]) 
+             if target != 0 else np.vectorize(f, otypes=[np.float64]))
+        a, b = min(left, right), max(left, right)
+        try:
+            tolerances = dict(xatol=precision, xrtol=0, fatol=0, frtol=0)
+            res = elementwise.find_root(g, (a, b), tolerances=tolerances)
+            return res.x
+        except (ValueError, RuntimeError):
+            return float('nan')
+    solver.__name__ = 'sp_chandrupatla'
+    return solver
 
 scipy_bisect = make_scipy_solver(sp_bisect, "sp_bisect")
 scipy_brentq = make_scipy_solver(brentq,    "sp_brentq")
 scipy_brenth = make_scipy_solver(brenth,    "sp_brenth")
 scipy_ridder = make_scipy_solver(sp_ridder, "sp_ridder")
+scipy_chandrupatla = wrap_find_root()
 
 
 # ---------------------------------------------------------------------------
@@ -267,6 +284,7 @@ solvers = [
     ("brentq", scipy_brentq),
     ("brenth", scipy_brenth),
     ("ridder", scipy_ridder),
+    ("chandr", scipy_chandrupatla),
     (" modAB", mod_ab),
 ]
 
