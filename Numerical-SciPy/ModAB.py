@@ -37,7 +37,7 @@ def mod_ab(f, left, right, target, precision=1e-14):
             # calculate k on each bisection step with account for local function properties and symmetry
             y1a = abs(y1)
             y2a = abs(y2)
-            r = min(y1a, y2a) / max(y1a, y2a)
+            r = min(y1a, y2a) / max(y1a, y2a) if y1a > 0 and y2a > 0 else 1
             k = r ** 0.25 # Factor for limiting deviation from straight line
             if abs(ym - y3) < k * (abs(y3) + abs(ym)):
                 bisection = False

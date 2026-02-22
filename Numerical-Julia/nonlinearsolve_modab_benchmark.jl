@@ -29,7 +29,7 @@ end
 bisect_solver  = make_nlsolve_solver(Bisection(),  "bisect")
 brent_solver   = make_nlsolve_solver(Brent(),      "brent")
 ridder_solver  = make_nlsolve_solver(Ridder(),     "ridder")
-alefeld_solver     = make_nlsolve_solver(Alefeld(),"alefeld")
+alefeld_solver = make_nlsolve_solver(Alefeld(),    "alefeld")
 itp_solver     = make_nlsolve_solver(ITP(),        "ITP")
 modab_solver   = make_nlsolve_solver(ModAB(),      "modab")
 

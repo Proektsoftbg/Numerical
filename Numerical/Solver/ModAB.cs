@@ -24,7 +24,7 @@
                     p3 = new Node(Node.Mid(p1, p2), F, y0);
                     var ym = (p1.Y + p2.Y) / 2.0;
                     double y1 = Math.Abs(p1.Y), y2 = Math.Abs(p2.Y);
-                    var r = Math.Min(y1, y2) / Math.Max(y1, y2);
+                    var r = y1 > 0 && y2 > 0 ? Math.Min(y1, y2) / Math.Max(y1, y2) : 1.0;
                     var k = Math.Pow(r, 0.25); // Factor for limiting deviation from straight line
                     // Check if function is close enough to straight line and switch to false-position
                     if (Math.Abs(ym - p3.Y) < k * (Math.Abs(p3.Y) + Math.Abs(ym)))

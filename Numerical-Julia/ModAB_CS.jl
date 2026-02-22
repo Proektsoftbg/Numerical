@@ -25,7 +25,7 @@ function mod_ab_CS(f, left::Real, right::Real, target::Real=0.0; precision::Floa
             # calculate k on each bisection step with account for local function properties and symmetry
             y1a = abs(y1)
             y2a = abs(y2)
-            r = min(y1a, y2a) / max(y1a, y2a)
+            r = y1a > 0 && y2a > 0 ? min(y1a, y2a) / max(y1a, y2a) : 1
             k = r^0.25 # Factor for limiting deviation from straight line
             if abs(ym - y3) < k * (abs(y3) + abs(ym))
                 bisection = false

@@ -5,11 +5,7 @@ from typing import Callable
 import numpy as np
 from scipy.optimize import bisect as sp_bisect, brentq, brenth, ridder as sp_ridder, elementwise
 
-
-# ---------------------------------------------------------------------------
 # Function-call counting wrapper
-# ---------------------------------------------------------------------------
-
 class CountedFunc:
     """Wraps a callable and counts the number of evaluations."""
     __slots__ = ('_f', 'count')
@@ -63,11 +59,7 @@ scipy_brenth = make_scipy_solver(brenth,    "sp_brenth")
 scipy_ridder = make_scipy_solver(sp_ridder, "sp_ridder")
 scipy_chandrupatla = wrap_find_root()
 
-
-# ---------------------------------------------------------------------------
 # Problem definition
-# ---------------------------------------------------------------------------
-
 @dataclass
 class Problem:
     name: str
@@ -80,11 +72,7 @@ class Problem:
 def P(x):
     return x + 1.11111
 
-
-# ---------------------------------------------------------------------------
 # Test problems
-# ---------------------------------------------------------------------------
-
 problems1 = [
     # Sérgio Galdino. A family of regula falsi root-finding methods
     Problem("f01", lambda x: x**3 - 1, 0.5, 1.5),
@@ -191,11 +179,7 @@ problems3 = [
 
 all_problems = problems1 + problems2 + problems3
 
-
-# ---------------------------------------------------------------------------
 # Solver table
-# ---------------------------------------------------------------------------
-
 solvers = [
     ("bisect", scipy_bisect),
     ("brentq", scipy_brentq),
@@ -205,16 +189,12 @@ solvers = [
     (" modAB", mod_ab),
 ]
 
-
-# ---------------------------------------------------------------------------
 # Benchmark runner
-# ---------------------------------------------------------------------------
-
 def run():
     eps = 1e-14
     col_w = 22  # column width for results
 
-    # --- Results ---
+    # Results
     print("Results")
     header = f"{'Func':>4}; " + "; ".join(f"{name:>{col_w}}" for name, _ in solvers)
     print(header)
@@ -230,7 +210,7 @@ def run():
         print(line)
     print()
 
-    # --- Function values ---
+    # Function values
     print("Function values")
     header = f"{'Func':>4}; " + "; ".join(f"{name:>{col_w}}" for name, _ in solvers)
     print(header)
@@ -246,7 +226,7 @@ def run():
         print(line)
     print()
 
-    # --- Function evaluation counts ---
+    # Function evaluation counts
     print("Function evaluations")
     header = f"{'Func':>4}; " + "; ".join(f"{name:>6}" for name, _ in solvers)
     print(header)
