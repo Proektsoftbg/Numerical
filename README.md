@@ -9,7 +9,7 @@ This library provides numerical methods for integration, differentiation, root-f
 * ModFP - modified false-position (Ganchovski, 2022)
 * Illinois method
 * Anderson-Bjork's method
-* ModAB - modified Anderson-Bjork (Traykov & Ganchovski, 2022)
+* ModAB - modified Anderson-Bjork (Traykov & Ganchovski, 2022), improved 2026
 * ITP (Oliveira & Takahashi, 2021)
 * Ridders' method
 * Brent's method
@@ -47,22 +47,23 @@ Some results are presented in the [/Numerical.Benchmark/doc](https://github.com/
 
 ### Root Finding - extended (91 functions)
 
-|Method	|bs   |fp   |mfp  |ill	|AB	  |ITP	|mAB  |Rid  |Bre  |
+|Method	|bs   |fp   |mfp  |ill	|AB	  |ITP	|Rid  |Bre  |mAB  |
 |------:|----:|----:|----:|----:|----:|----:|----:|----:|----:|
-|SUM    |4176 |7709	|2089 |2684 |2700 |2581 |1227 |1990 |2625 |
-|AVE    |46	  |85   |23   |29   |30   |28   |13   |22   |29   |
-|MAX    |48	  |200  |71   |200  |200  |50   |48   |78   |133  |
+|SUM    | 4406| 7907| 2287| 2882| 2896| 2812| 2190| 2823| 1677|
+|AVE    |  48 |  87 |  25 |  32 |  32 |  31 |  24 |  31 |  18 |
+|MAX    |  50 | 202 |  73 | 202 | 202 |  52 |  80 | 135 |  51 |
 
-Legend:  
+Legend: 
+---
 bs – Bisection method  
 fp – False position  
 mfp – Modified false position  
 ill – Illinois method  
 AB – Anderson-Bjork  
 ITP – Interpolate, truncate, project  
-mAB – Modified Anderson-Bjork (new)  
 Rid – Ridders  
 Brе – Brent  
+mAB – Modified Anderson-Bjork (new - 2026)  
 
 ### Numerical Integration
 
