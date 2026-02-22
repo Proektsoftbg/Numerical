@@ -1,9 +1,7 @@
-using Roots
+using NonlinearSolve
+include("ModAB_CS.jl")
 
-# ---------------------------------------------------------------------------
 # Function-call counting wrapper
-# ---------------------------------------------------------------------------
-
 mutable struct CountedFunc{F} <: Function
     f::F
     count::Int
@@ -12,102 +10,15 @@ CountedFunc(f) = CountedFunc(f, 0)
 (cf::CountedFunc)(x) = (cf.count += 1; cf.f(x))
 reset!(cf::CountedFunc) = (cf.count = 0; cf)
 
-# ---------------------------------------------------------------------------
-# ModAB solver (translated from ModAB.cs)
-# ---------------------------------------------------------------------------
-
-function mod_ab(f, left::Real, right::Real, target::Real=0.0; precision::Float64=1e-14)
-    x1, x2 = min(left, right), max(left, right)
-    y1 = f(x1) - target
-    abs(y1) <= precision && return x1
-
-    y2 = f(x2) - target
-    abs(y2) <= precision && return x2
-
-    n_max = -Int(floor(log2(precision) / 2.0)) + 1
-    eps1 = precision / 4
-    eps = precision * (x2 - x1) / 2.0
-    if abs(target) > 1
-        eps1 *= target
-    end
-
-    side = 0
-    ans = x1
-    bisection = true
-    k = 0.25
-
-    for i in 1:200
-        if bisection
-            x3 = (x1 + x2) / 2.0
-            y3 = f(x3) - target
-            ym = (y1 + y2) / 2.0
-            if abs(ym - y3) < k * (abs(y3) + abs(ym))
-                bisection = false
-            end
-        else
-            x3 = (x1 * y2 - y1 * x2) / (y2 - y1)
-            if x3 < x1 - eps || x3 > x2 + eps
-                return NaN
-            end
-            y3 = f(x3) - target
-        end
-
-        if abs(y3) < eps1 || abs(x3 - ans) < eps
-            if x1 > x2
-                return side == 1 ? x2 : x1
-            end
-            return clamp(x3, x1, x2)
-        end
-
-        ans = x3
-        if sign(y1) == sign(y3)
-            if side == 1
-                m = 1 - y3 / y1
-                if m <= 0
-                    y2 /= 2
-                else
-                    y2 *= m
-                end
-            elseif !bisection
-                side = 1
-            end
-            x1 = x3
-            y1 = y3
-        else
-            if side == -1
-                m = 1 - y3 / y2
-                if m <= 0
-                    y1 /= 2
-                else
-                    y1 *= m
-                end
-            elseif !bisection
-                side = -1
-            end
-            x2 = x3
-            y2 = y3
-        end
-
-        if i % n_max == 0
-            bisection = true
-        end
-    end
-    return ans
-end
-
-# ---------------------------------------------------------------------------
-# Roots.jl solver wrapper
-# ---------------------------------------------------------------------------
-
-function make_roots_solver(method, name::String)
+# NonlinearSolve.jl solver wrapper
+function make_nlsolve_solver(method, name::String)
     function solver(f, left::Real, right::Real, target::Real=0.0; precision::Float64=1e-14)
         g = target != 0 ? x -> f(x) - target : f
         a, b = min(left, right), max(left, right)
         try
-            return find_zero(g, (a, b), method;
-                             xatol=precision, xrtol=0.0,
-                             atol=precision, rtol=0.0,
-                             maxiters=200)
+            prob = IntervalNonlinearProblem((x, p) -> g(x), (a, b))
+            sol = solve(prob, method; abstol=precision, maxiters=200)
+            return sol.u
         catch
             return NaN
         end
@@ -115,16 +26,14 @@ function make_roots_solver(method, name::String)
     return solver
 end
 
-bisect_solver  = make_roots_solver(Bisection(),     "bisect")
-brent_solver   = make_roots_solver(Roots.Brent(),   "brent")
-ridder_solver  = make_roots_solver(Roots.Ridders(), "ridder")
-a42_solver     = make_roots_solver(Roots.A42(),     "A42")
-itp_solver     = make_roots_solver(Roots.ITP(),     "ITP")
+bisect_solver  = make_nlsolve_solver(Bisection(),  "bisect")
+brent_solver   = make_nlsolve_solver(Brent(),      "brent")
+ridder_solver  = make_nlsolve_solver(Ridder(),     "ridder")
+alefeld_solver     = make_nlsolve_solver(Alefeld(),"alefeld")
+itp_solver     = make_nlsolve_solver(ITP(),        "ITP")
+modab_solver   = make_nlsolve_solver(ModAB(),      "modab")
 
-# ---------------------------------------------------------------------------
 # Problem definition
-# ---------------------------------------------------------------------------
-
 struct Problem
     name::String
     f::Function
@@ -136,10 +45,7 @@ Problem(name, f, a, b) = Problem(name, f, Float64(a), Float64(b), 0.0)
 
 P(x) = x + 1.11111
 
-# ---------------------------------------------------------------------------
 # Test problems
-# ---------------------------------------------------------------------------
-
 const problems1 = [
     Problem("f01", x -> x^3 - 1, 0.5, 1.5),
     Problem("f02", x -> x^2 * (x^2 / 3 + sqrt(2) * sin(x)) - sqrt(3) / 18, 0.1, 1),
@@ -235,48 +141,38 @@ const problems3 = [
     Problem("f86", x -> exp(x) - 1 - x - x * x / 2 - 0.005, -2.0, 2.0),
     Problem("f87", x -> 1 / (x - 0.5) - 2 - 0.05, 0.6, 2.0),
     Problem("f88", x -> log(x) - x + 2 - 0.05, 0.1, 3.0),
-    Problem("f89", x -> sin(20x) + 0.1x - 0.1, -5.0, 5.0),
+    Problem("f89", x -> sin(20x) + 0.1x - 0.1, -4.0, 5.0),
     Problem("f90", x -> x^3 - 2x^2 + x - 0.025, -1.0, 2.0),
     Problem("f91", x -> x * sin(1 / x) - 0.1 - 0.01, 0.01, 1.0),
 ]
 
 const all_problems = vcat(problems1, problems2, problems3)
 
-# ---------------------------------------------------------------------------
 # Solver table
-# ---------------------------------------------------------------------------
-
 const solvers = [
-    ("bisect", bisect_solver),
-    (" brent", brent_solver),
-    ("ridder", ridder_solver),
-    ("   A42", a42_solver),
-    ("   ITP", itp_solver),
-    (" modAB", mod_ab),
-]
+    (" bisect", bisect_solver),
+    ("  brent", brent_solver),
+    (" ridder", ridder_solver),
+    ("alefeld", alefeld_solver),
+    ("    ITP", itp_solver),
+    ("  modAB", modab_solver),
+    ("modAB_CS", mod_ab_CS)]   
 
-# ---------------------------------------------------------------------------
 # Benchmark runner
-# ---------------------------------------------------------------------------
-
 function run_benchmark()
     eps = 1e-14
     col_w = 22
 
-    # --- Results ---
+    # Results
     println("Results")
     header = lpad("Func", 4) * "; " * join([lpad(name, col_w) for (name, _) in solvers], "; ")
     println(header)
     for p in all_problems
         line = lpad(p.name, 4) * "; "
         for (name, solver) in solvers
-            cf = CountedFunc(p.f)
+            cf = CountedFunc(p.f, 0)
             try
-                if solver === mod_ab
-                    result = solver(cf, p.a, p.b, p.value; precision=eps)
-                else
-                    result = solver(cf, p.a, p.b, p.value; precision=eps)
-                end
+                result = solver(cf, p.a, p.b, p.value; precision=eps)
                 s = if isnan(result)
                     lpad("NaN", col_w)
                 else
@@ -291,9 +187,9 @@ function run_benchmark()
     end
     println()
 
-    # --- Function evaluation counts ---
+    # Function evaluation counts
     println("Function evaluations")
-    header = lpad("Func", 4) * "; " * join([lpad(name, 6) for (name, _) in solvers], "; ")
+    header = lpad("Func", 4) * "; " * join([lpad(name, 7) for (name, _) in solvers], "; ")
     println(header)
     total = zeros(Int, length(solvers))
     for p in all_problems
@@ -301,15 +197,11 @@ function run_benchmark()
         for (j, (name, solver)) in enumerate(solvers)
             cf = CountedFunc(p.f)
             try
-                if solver === mod_ab
-                    solver(cf, p.a, p.b, p.value; precision=eps)
-                else
-                    solver(cf, p.a, p.b, p.value; precision=eps)
-                end
+                solver(cf, p.a, p.b, p.value; precision=eps)
                 total[j] += cf.count
-                line *= lpad(string(cf.count), 6) * "; "
+                line *= lpad(string(cf.count), 7) * "; "
             catch e
-                line *= lpad("ERR", 6) * "; "
+                line *= lpad("ERR", 7) * "; "
             end
         end
         println(line)
@@ -318,10 +210,9 @@ function run_benchmark()
     # Print totals
     line = lpad("SUM", 4) * "; "
     for t in total
-        line *= lpad(string(t), 6) * "; "
+        line *= lpad(string(t), 7) * "; "
     end
     println(line)
     println()
 end
-
 run_benchmark()

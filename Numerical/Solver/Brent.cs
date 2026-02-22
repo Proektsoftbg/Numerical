@@ -7,7 +7,7 @@
         // R. P. Brent, An algorithm with guaranteed convergence for finding a zero of a function,
         // The Computer Journal, Volume 14, Issue 4, 1971, Pages 422–425
         // https://doi.org/10.1093/comjnl/14.4.422 
-        // F(x) must be coutinuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
+        // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
 
         public static double Brent(Func<double, double> F,
             double x1, double x2, double y0 = 0.0, double precision = 1e-14)
@@ -35,11 +35,9 @@
                 double xm = (p3.X - p2.X) / 2;
                 if (Math.Abs(p2.Y) <= eps.Y || Math.Abs(xm) <= eps.X)  //Convergence check.
                 {
-                    IterationCount = i;
+                    EvaluationCount = i + 2;
                     return p2.X;
                 }
-
-
                 if (Math.Abs(e) >= eps.X && Math.Abs(p1.Y) > Math.Abs(p2.Y))
                 {
                     double s = p2.Y / p1.Y; //Attempt inverse quadratic interpolation.
@@ -86,7 +84,7 @@
 
                 p2.Y = F(p2.X) - y0;
             }
-            IterationCount = MaxIterations;
+            EvaluationCount = MaxIterations + 2;
             return double.NaN;
         }
     }

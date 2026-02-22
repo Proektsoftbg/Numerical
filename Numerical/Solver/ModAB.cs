@@ -5,96 +5,86 @@
         // Finds the root of "F(x) = y0" within the interval [x1. x2]
         // with the specified precision, using modified Anderson Bjork's method (Ganchovski, Traykov)
         // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
-
-        public static double ModAB(Func<double, double> f, double left, double right, double target, double precision = 1e-14)
+        public static double ModAB(Func<double, double> F, double x1, double x2, double y0, double precision = 1e-14)
         {
-            double x1 = Math.Min(left, right), y1 = f(x1) - target;
-            if (Math.Abs(y1) <= precision)
-                return x1;
+            if (!Initialize(x1, x2, F, y0, precision,
+            out Node p1, out Node p2, out Node eps))
+                return double.NaN;
 
-            double x2 = Math.Max(left, right), y2 = f(x2) - target;
-            if (Math.Abs(y2) <= precision)
-                return x2;
-
-            var nMax = -(int)(Math.Log2(precision) / 2.0) + 1;
-            double eps1 = precision / 100, eps = precision * (x2 - x1) / 2.0;
-            if (Math.Abs(target) > 1)
-                eps1 *= target;
-            else
-                eps1 *= eps1;
-
-            var side = 0;
-            var ans = x1;
+            var side = 0; // Store the side that moved last: -1 for left, 1 for right, 0 for none
+            var x0 = p1.X;
             var bisection = true;
-            const double k = 0.25;
+            double threshold = 0.0; // Threshold to reset to bisection
+            const double C = 16; // Safety factor of 4 iteration behind the threshold
             for (int i = 1; i <= MaxIterations; ++i)
             {
-                double x3, y3;
+                Node p3;
                 if (bisection)
                 {
-                    x3 = (x1 + x2) / 2.0;
-                    y3 = f(x3) - target;
-                    var ym = (y1 + y2) / 2.0;
-                    // Check if function is close to straight line
-                    if (Math.Abs(ym - y3) < k * (Math.Abs(y3) + Math.Abs(ym)))
+                    p3 = new Node(Node.Mid(p1, p2), F, y0);
+                    var ym = (p1.Y + p2.Y) / 2.0;
+                    double y1 = Math.Abs(p1.Y), y2 = Math.Abs(p2.Y);
+                    var r = Math.Min(y1, y2) / Math.Max(y1, y2);
+                    var k = Math.Pow(r, 0.25); // Factor for limiting deviation from straight line
+                    // Check if function is close enough to straight line and switch to false-position
+                    if (Math.Abs(ym - p3.Y) < k * (Math.Abs(p3.Y) + Math.Abs(ym)))
+                    {
                         bisection = false;
+                        threshold = (p2.X - p1.X) * C;
+                    }
                 }
                 else
                 {
-                    x3 = (x1 * y2 - y1 * x2) / (y2 - y1);
-                    if (x3 < x1 - eps || x3 > x2 + eps)
-                    {
+                    var x3 = Node.Sec(p1, p2);
+                    // Check if the new point falls outside the interval
+                    if (x3 < p1.X - eps.X || x3 > p2.X + eps.X)
                         return double.NaN;
-                    }
-                    y3 = f(x3) - target;
-                }
-                var err = Math.Abs(y3);
-                if (err <= eps1 || Math.Abs(x3 - ans) <= eps)
-                {
-                    IterationCount = i;
-                    if (x1 > x2)
-                        return side == 1 ? x2 : x1;
 
-                    return Math.Clamp(x3, x1, x2);
+                    p3 = new Node(x3, F, y0);
+                    threshold /= 2.0;
                 }
-                ans = x3;
-                if (Math.Sign(y1) == Math.Sign(y3))
+                // Check for convergence and return the result
+                if (Math.Abs(p3.Y) <= eps.Y || Math.Abs(p3.X - x0) <= eps.X)
                 {
-                    if (side == 1)
+                    EvaluationCount = i + 2;
+                    return p3.X;
+                }
+                x0 = p3.X; // Stores the value for the next iteration to check for convergence
+                if (Math.Sign(p1.Y) == Math.Sign(p3.Y))
+                {
+                    if (side == 1) // Apply Anderson-Bjork' correction to the right side
                     {
-                        var m = 1 - y3 / y1;
+                        var m = 1 - p3.Y / p1.Y;
                         if (m <= 0)
-                            y2 /= 2;
+                            p2.Y /= 2;
                         else
-                            y2 *= m;
+                            p2.Y *= m;
                     }
                     else if (!bisection)
                         side = 1;
 
-                    x1 = x3;
-                    y1 = y3;
+                    p1 = p3;
                 }
                 else
                 {
-                    if (side == -1)
+                    if (side == -1) // Apply Anderson-Bjork' correction to the left side
                     {
-                        var m = 1 - y3 / y2;
+                        var m = 1 - p3.Y / p2.Y;
                         if (m <= 0)
-                            y1 /= 2;
+                            p1.Y /= 2;
                         else
-                            y1 *= m;
+                            p1.Y *= m;
                     }
                     else if (!bisection)
                         side = -1;
 
-                    x2 = x3;
-                    y2 = y3;
+                    p2 = p3;
                 }
-                if (i % nMax == 0)
+                if (p2.X - p1.X > threshold) // If AB failed to shrink the interval enough reset to bisection
                     bisection = true;
             }
-            IterationCount = MaxIterations;
-            return ans;
+            EvaluationCount = MaxIterations + 2;
+            return double.NaN;
         }
     }
 }

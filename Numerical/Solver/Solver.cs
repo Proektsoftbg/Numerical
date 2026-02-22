@@ -10,7 +10,7 @@
 
         private const int MaxIterations = 200;
 
-        public static int IterationCount { get; private set; }
+        public static int EvaluationCount { get; private set; }
 
 
         private static bool Initialize(double x1, double x2, Func<double, double> F,
@@ -22,7 +22,7 @@
                 Precision * (x2 - x1), 
                 Math.Abs(y0) > 1.0 ? eps.Y = Precision * y0 : 0.0
                 );
-            IterationCount = 0;
+            EvaluationCount = 0;
             return Math.Sign(p1.Y) != Math.Sign(p2.Y);
         }
     }

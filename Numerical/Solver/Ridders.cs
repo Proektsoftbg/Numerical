@@ -7,7 +7,7 @@
         // C. Ridders, "A new algorithm for computing a single root of a real continuous function"
         // IEEE Transactions on Circuits and Systems, vol. 26, no. 11, pp. 979-980, November 1979
         // https://doi.org/10.1109/TCS.1979.1084580
-        // F(x) must be coutinuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
+        // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
 
         public static double Ridders(Func<double, double> F,
             double x1, double x2, double y0 = 0.0, double precision = 1e-14)
@@ -29,7 +29,7 @@
                 Node p4 = new(d, F, y0);
                 if (Math.Abs(p4.Y) <= eps.Y || Math.Abs(p4.X - x0) <= eps.X)
                 {
-                    IterationCount = 2 * i;
+                    EvaluationCount = 2 * i + 2;
                     return p4.X;
                 }
 
@@ -47,7 +47,7 @@
                         p1 = p3;
                 }
             }
-            IterationCount = MaxIterations;
+            EvaluationCount = 2 * MaxIterations + 2;
             return double.NaN;
         }
 

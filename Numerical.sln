@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerical", "Numerical.csproj", "{9DD0687D-FF8C-43B6-9334-410EBBF3B760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerical", "Numerical\Numerical.csproj", "{9DD0687D-FF8C-43B6-9334-410EBBF3B760}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerical.Benchmark", "..\Numerical.Benchmark\Numerical.Benchmark.csproj", "{6D86CD31-B682-4970-985E-7E0AD019C14C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerical.Benchmark", "Numerical.Benchmark\Numerical.Benchmark.csproj", "{6D86CD31-B682-4970-985E-7E0AD019C14C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

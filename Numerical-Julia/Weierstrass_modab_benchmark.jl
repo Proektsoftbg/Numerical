@@ -1,9 +1,7 @@
 using NonlinearSolve
+include("ModAB_CS.jl")
 
-# ---------------------------------------------------------------------------
 # Function-call counting wrapper
-# ---------------------------------------------------------------------------
-
 mutable struct CountedFunc{F} <: Function
     f::F
     count::Int
@@ -12,100 +10,7 @@ CountedFunc(f) = CountedFunc(f, 0)
 (cf::CountedFunc)(x) = (cf.count += 1; cf.f(x))
 reset!(cf::CountedFunc) = (cf.count = 0; cf)
 
-# ---------------------------------------------------------------------------
-# ModAB solver (translated from ModAB.cs) — standalone reference implementation
-# ---------------------------------------------------------------------------
-
-function mod_ab_CS(f, left::Real, right::Real, target::Real=0.0; precision::Float64=1e-14)
-    x1, x2 = min(left, right), max(left, right)
-    y1 = f(x1) - target
-    abs(y1) <= precision && return x1
-
-    y2 = f(x2) - target
-    abs(y2) <= precision && return x2
-
-    n_max = -Int(floor(log2(precision) / 2.0)) + 1
-    eps1 = precision / 100
-    eps = precision * (x2 - x1) / 2.0
-    if abs(target) > 1
-        eps1 *= target
-    end
-        eps1 = 0
-
-    side = 0
-    ans = x1
-    bisection = true
-    k = 0.25
-
-    for i in 1:200
-        local x3, y3
-        if bisection
-            x3 = (x1 + x2) / 2.0
-            y3 = f(x3) - target
-            ym = (y1 + y2) / 2.0
-            if abs(ym - y3) < k * (abs(y3) + abs(ym))
-                bisection = false
-            end
-        else
-            x3 = (x1 * y2 - y1 * x2) / (y2 - y1)
-            if x3 < x1 - eps || x3 > x2 + eps
-                return NaN
-            end
-            y3 = f(x3) - target
-            # uncomment for early backswitching
-            x = sign(y1) == sign(y3) ? x1 : x2
-            if 2abs(x3 - x) < x2 - x1
-                bisection = true
-            end
-
-        end
-
-        if abs(y3) <= eps1 || abs(x3 - ans) <= eps
-            if x1 > x2
-                return side == 1 ? x2 : x1
-            end
-            return clamp(x3, x1, x2)
-        end
-
-        ans = x3
-        if sign(y1) == sign(y3)
-            if side == 1
-                m = 1 - y3 / y1
-                if m <= 0
-                    y2 /= 2
-                else
-                    y2 *= m
-                end
-            elseif !bisection
-                side = 1
-            end
-            x1 = x3
-            y1 = y3
-        else
-            if side == -1
-                m = 1 - y3 / y2
-                if m <= 0
-                    y1 /= 2
-                else
-                    y1 *= m
-                end
-            elseif !bisection
-                side = -1
-            end
-            x2 = x3
-            y2 = y3
-        end
-        if i % n_max == 0
-            bisection = true
-        end
-    end
-    return ans
-end
-
-# ---------------------------------------------------------------------------
 # NonlinearSolve.jl solver wrapper
-# ---------------------------------------------------------------------------
-
 function make_nlsolve_solver(method, name::String)
     function solver(f, left::Real, right::Real, target::Real=0.0; precision::Float64=1e-14)
         g = target != 0 ? x -> f(x) - target : f
@@ -128,10 +33,7 @@ a42_solver     = make_nlsolve_solver(Alefeld(),    "A42")
 itp_solver     = make_nlsolve_solver(ITP(),        "ITP")
 modab_solver   = make_nlsolve_solver(ModAB(),      "modab")
 
-# ---------------------------------------------------------------------------
 # Problem definition
-# ---------------------------------------------------------------------------
-
 struct Problem
     name::String
     f::Function
@@ -142,10 +44,6 @@ end
 Problem(name, f, a, b) = Problem(name, f, Float64(a), Float64(b), 0.0)
 
 P(x) = x + 1.11111
-
-# ---------------------------------------------------------------------------
-# Test problems
-# ---------------------------------------------------------------------------
 
 # Wierstrass function
 function weierstrass(x; a::Float64=0.5, b::Int=13, n_terms::Int=100)
@@ -164,10 +62,7 @@ const problems = [
     Problem("f03", x -> weierstrass(x), 0.24, 0.36),
 ]
 
-# ---------------------------------------------------------------------------
 # Solver tabl
-# ---------------------------------------------------------------------------
-
 const solvers = [
     ("bisect", bisect_solver),
     (" brent", brent_solver),
@@ -177,15 +72,12 @@ const solvers = [
     (" modAB", modab_solver),
     (" modAB_CS", mod_ab_CS)]   
 
-# ---------------------------------------------------------------------------
 # Benchmark runner
-# ---------------------------------------------------------------------------
-
 function run_benchmark()
     eps = 1e-14
     col_w = 22
 
-    # --- Results ---
+    #Results
     println("Results")
     header = lpad("Func", 4) * "; " * join([lpad(name, col_w) for (name, _) in solvers], "; ")
     println(header)
@@ -209,7 +101,7 @@ function run_benchmark()
     end
     println()
 
-    # --- Function evaluation counts ---
+    # Function evaluation counts
     println("Function evaluations")
     header = lpad("Func", 4) * "; " * join([lpad(name, 6) for (name, _) in solvers], "; ")
     println(header)
@@ -221,7 +113,7 @@ function run_benchmark()
             try
                 solver(cf, p.a, p.b, p.value; precision=eps)
                 total[j] += cf.count
-                line *= lpad(string(cf.count), 6) * "; "
+                line *= lpad(string(cf.count), 7) * "; "
             catch e
                 line *= lpad("ERR", 6) * "; "
             end

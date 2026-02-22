@@ -649,7 +649,7 @@ namespace Numerical.Benchmark
             {
                  Name = "f89",
                  F = (x) =>  Math.Sin(20*x) + 0.1*x - 0.1,
-                 a = -5.0,
+                 a = -4.0,
                  b = 5.0,
             },
 
@@ -679,11 +679,9 @@ namespace Numerical.Benchmark
                 {
                     case 0: Console.WriteLine("Results"); break;
                     case 1: Console.WriteLine("Function values"); break;
-                    case 2: Console.WriteLine("Iteration count"); break;
+                    case 2: Console.WriteLine("Evaluation count"); break;
                 }
-                Console.WriteLine("Func;  bs;   fp;  mfp;  ill;   ab;  ITP;  mAB;  rid;   br;  RBP");
-                //foreach (Problem p in problems1)
-                //foreach (Problem p in problems2)
+                Console.WriteLine("Func;   bs;    fp;   mfp;   ill;    ab;   ITP;   rid;    br;   RBP;   mAB");
                 var problems = (new[] { problems1, problems2, problems3 }).SelectMany(x => x).ToArray(); ;
                 foreach (Problem p in problems)
                 {
@@ -698,16 +696,16 @@ namespace Numerical.Benchmark
                             3 => Solver.Illinois(p.F, p.a, p.b, p.Value, eps),
                             4 => Solver.AndersonBjork(p.F, p.a, p.b, p.Value, eps),
                             5 => Solver.ITP(p.F, p.a, p.b, p.Value, eps),
-                            6 => Solver.ModAB(p.F, p.a, p.b, p.Value, eps),
-                            7 => Solver.Ridders(p.F, p.a, p.b, p.Value, eps),
-                            8 => Solver.Brent(p.F, p.a, p.b, p.Value, eps),
-                            9 => Solver.RBP(p.F, p.a, p.b, p.Value, eps),
-                            _ => throw new NotImplementedException()
+                            6 => Solver.Ridders(p.F, p.a, p.b, p.Value, eps),
+                            7 => Solver.Brent(p.F, p.a, p.b, p.Value, eps),
+                            8 => Solver.RBP(p.F, p.a, p.b, p.Value, eps),
+                            9 => Solver.ModAB(p.F, p.a, p.b, p.Value, eps),
+                           _ => throw new NotImplementedException()
                         };
-                        var count = Math.Abs(Solver.IterationCount);
+                        var count = Math.Abs(Solver.EvaluationCount);
                         if (count == 0) count = 1;
                         count = 4 - (int)(Math.Floor(Math.Log10(count)));
-                        var s = new string(' ', count) + Solver.IterationCount.ToString();
+                        var s = new string(' ', count) + Solver.EvaluationCount.ToString();
                         if (i == 0)
                             Console.Write(result+ "; ");
                         else if (i == 1)

@@ -4,7 +4,7 @@
     {
         // Finds the root of "F(x) = y0" within the interval [x1. x2]
         // with the specified precision, using modified false-position method (Ganchovski)
-        // F(x) must be coutinuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)v
+        // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)v
 
         public static double ModFalsePosition(Func<double, double> F,
             double x1, double x2, double y0 = 0.0, double precision = 1e-14)
@@ -32,7 +32,7 @@
 
                 if (Math.Abs(p3.Y) <= eps.Y || Math.Abs(p3.X - x0) < eps.X)
                 {
-                    IterationCount = i;
+                    EvaluationCount = i + 2;
                     return p3.X;
                 }
 
@@ -42,7 +42,7 @@
                 else
                     p2 = p3;
             }
-            IterationCount = MaxIterations;
+            EvaluationCount = MaxIterations + 2;
             return double.NaN;
         }
 

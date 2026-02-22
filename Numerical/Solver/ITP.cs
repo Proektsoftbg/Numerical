@@ -34,7 +34,7 @@
                 Node pt = new(xt, F, y0);
                 if (Math.Abs(pt.Y) <= eps.Y || p2.X - p1.X < eps.X)
                 {
-                    IterationCount = i;
+                    EvaluationCount = i + 2;
                     return xt;
                 }
                 if (Math.Sign(p1.Y) == Math.Sign(pt.Y))
@@ -42,7 +42,7 @@
                 else
                     p2 = pt;
             }
-            IterationCount = MaxIterations;
+            EvaluationCount = MaxIterations + 2;
             return double.NaN;
         }
     }

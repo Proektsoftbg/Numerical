@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Numerical.Benchmark
+﻿namespace Numerical.Benchmark
 {
-    // This class contains all the required data
+    // This class contains the required data
     // to define a test problem for the numerical library
     internal struct Problem
     {

@@ -1,4 +1,5 @@
 import math
+from ModAB import mod_ab
 from dataclasses import dataclass
 from typing import Callable 
 import numpy as np
@@ -24,92 +25,8 @@ class CountedFunc:
     def reset(self):
         self.count = 0
 
-
-# ---------------------------------------------------------------------------
-# ModAB solver (translated from ModAB.cs)
-# ---------------------------------------------------------------------------
-
-def mod_ab(f, left, right, target, precision=1e-14):
-    """Modified Anderson-Björk method (Ganchovski, Traykov)."""
-    x1, x2 = min(left, right), max(left, right)
-    y1 = f(x1) - target
-    if abs(y1) <= precision:
-        return x1
-
-    y2 = f(x2) - target
-    if abs(y2) <= precision:
-        return x2
-
-    n_max = -int(math.log2(precision) / 2.0) + 1
-    eps1 = precision / 100
-    eps = precision * (x2 - x1) / 2.0
-    if abs(target) > 1:
-        eps1 *= target
-    else:
-        eps1 = 0
-
-    side = 0
-    ans = x1
-    bisection = True
-    k = 0.25
-    n = 100
-
-    for i in range(1, n + 1):
-        if bisection:
-            if math.copysign(1, y1) == math.copysign(1, y2):
-                return float('nan')
-            x3 = (x1 + x2) / 2.0
-            y3 = f(x3) - target
-            ym = (y1 + y2) / 2.0
-            if abs(ym - y3) < k * (abs(y3) + abs(ym)):
-                bisection = False
-        else:
-            x3 = (x1 * y2 - y1 * x2) / (y2 - y1)
-            if x3 < x1 - eps or x3 > x2 + eps:
-                return float('nan')
-            y3 = f(x3) - target
-
-        if abs(y3) <= eps1 or abs(x3 - ans) <= eps:
-            if x1 > x2:
-                return x2 if side == 1 else x1
-            return max(x1, min(x3, x2))
-
-        ans = x3
-        if math.copysign(1, y1) == math.copysign(1, y3):
-            if side == 1:
-                m = 1 - y3 / y1
-                if m <= 0:
-                    y2 /= 2
-                else:
-                    y2 *= m
-            elif not bisection:
-                side = 1
-            x1 = x3
-            y1 = y3
-        else:
-            if side == -1:
-                m = 1 - y3 / y2
-                if m <= 0:
-                    y1 /= 2
-                else:
-                    y1 *= m
-            elif not bisection:
-                side = -1
-            x2 = x3
-            y2 = y3
-
-        if i % n_max == 0:
-            bisection = True
-
-    return ans
-
-
-# ---------------------------------------------------------------------------
 # Scipy solver wrappers
-# ---------------------------------------------------------------------------
-
 _MIN_RTOL = 4 * np.finfo(float).eps  # ~8.88e-16, scipy's minimum
-
 
 def make_scipy_solver(scipy_func, name):
     """Create a wrapper that matches the (f, left, right, target, precision) signature."""
@@ -267,7 +184,7 @@ problems3 = [
     Problem("f86", lambda x: math.exp(x) - 1 - x - x * x / 2 - 0.005, -2.0, 2.0),
     Problem("f87", lambda x: 1 / (x - 0.5) - 2 - 0.05, 0.6, 2.0),
     Problem("f88", lambda x: math.log(x) - x + 2 - 0.05, 0.1, 3.0),
-    Problem("f89", lambda x: math.sin(20 * x) + 0.1 * x - 0.1, -5.0, 5.0),
+    Problem("f89", lambda x: math.sin(20 * x) + 0.1 * x - 0.1, -4.0, 5.0),
     Problem("f90", lambda x: x**3 - 2 * x**2 + x - 0.025, -1.0, 2.0),
     Problem("f91", lambda x: x * math.sin(1 / x) - 0.1 - 0.01, 0.01, 1.0),
 ]

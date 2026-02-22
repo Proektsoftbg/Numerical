@@ -7,7 +7,7 @@
         // Alojz Suhadolnik, Combined bracketing methods for solving nonlinear equations,
         // Applied Mathematics Letters, Volume 25, Issue 11, 2012, Pages 1755-1760, ISSN 0893-9659
         // https://doi.org/10.1016/j.aml.2012.02.006
-        // F(x) must be coutinuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
+        // F(x) must be continuous and sign(F(x1) - y0) ≠ sign(F(x2) - y0)
 
         public static double RBP(Func<double, double> F,
             double x1, double x2, double y0 = 0.0, double precision = 1e-14)
@@ -23,7 +23,7 @@
                 var dx = p2.X - p1.X;
                 if ((p3.X.EqualsBinary(p2.X) || p3.X.EqualsBinary(p1.X)))
                 {
-                    IterationCount = 2 * i;
+                    EvaluationCount = 2 * i;
                     return p3.X;
                 }
                 double a = (p3.Y - p1.Y) / ((p3.X - p1.X) * dx);
@@ -56,12 +56,12 @@
                 p3.Y = F(p3.X) - y0;
                 if (Math.Abs(p3.Y) < eps.Y || Math.Abs(p3.X - x0) < eps.X)
                 {
-                    IterationCount = 2 * i;
+                    EvaluationCount = 2 * i + 2;
                     return p3.X;
                 }
                 x0 = p3.X;
             }
-            IterationCount = MaxIterations;
+            EvaluationCount = 2 * MaxIterations + 2;
             return double.NaN;
         }
     }
