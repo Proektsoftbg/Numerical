@@ -9,11 +9,11 @@ This library provides numerical methods for integration, differentiation, root-f
 * ModFP - modified false-position (Ganchovski, 2022)
 * Illinois method
 * Anderson-Bjork's method
-* ModAB - modified Anderson-Bjork (Traykov & Ganchovski, 2022), improved 2026
 * ITP (Oliveira & Takahashi, 2021)
 * Ridders' method
 * Brent's method
 * RBP (Suhadolnik, 2012)
+* ModAB - modified Anderson-Bjork (Traykov & Ganchovski, 2022), improved 2026
 
 ## Numerical integration
 
